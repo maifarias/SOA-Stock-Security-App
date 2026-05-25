@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="stock_mode"> #388E3C </color>
+    <color name="security_mode"> #1565C0 </color>
+    <color name="vigin_embedded"> #9E9E9E </color>
+    <color name="red"> #9E9E9E </color>
+    <color name="green"> #388e3c </color>
+</resources>
