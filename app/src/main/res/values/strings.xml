@@ -18,8 +18,10 @@
     <string name="security_subtitle">Monitoreo de Sensores de Carga</string>
     <string name="sensor_1_label">SENSOR DE CARGA 1</string>
     <string name="sensor_2_label">SENSOR DE CARGA 2</string>
-    <string name="product_1_name">Caja de Tornillos</string>
-    <string name="product_2_name">Caja de Tuercas</string>
+    <string name="product_1_name">Manzanas</string>
+    <string name="product_2_name">Galletitas</string>
+    <string name="shelf_01">Shelf 01</string>
+    <string name="shelf_02">Shelf 02</string>
     <string name="status_safe">Estado: SEGURO</string>
     <string name="status_alert">Estado: ALERTA</string>
     <string name="btn_deactivate_security">Desactivar Seguridad</string>
@@ -29,7 +31,12 @@
     <string name="stock_subtitle">Control de Peso y Disponibilidad</string>
     <string name="weight_label">Peso Actual</string>
     <string name="weight_placeholder">-- g</string>
-    <string name="status_ok">Estado: DISPONIBLE</string>
-    <string name="status_low">Estado: STOCK BAJO</string>
+    <string name="status_ok">DISPONIBLE</string>
+    <string name="status_low">AGOTADO</string>
     <string name="btn_deactivate_stock">Desactivar Stock</string>
+
+    <!-- Formats -->
+    <string name="weight_format">Peso: %.1f g</string>
+    <string name="security_detail_format">Baseline: %.0f g\nActual: %.0f g\nΔ: %.0f g</string>
+    <string name="last_updated_format">Actualizado: %s</string>
 </resources>

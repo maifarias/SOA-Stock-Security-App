@@ -8,7 +8,6 @@
     android:background="@color/background_page"
     tools:context=".SecurityModeActivity">
 
-    <!-- Header Background -->
     <View
         android:id="@+id/headerView"
         android:layout_width="0dp"
@@ -48,7 +47,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
         android:clipToPadding="false"
-        android:paddingBottom="100dp"
+        android:paddingBottom="140dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,8 +59,20 @@
             android:orientation="vertical"
             android:paddingHorizontal="24dp">
 
-            <!-- Sensor 1 Card -->
+            <TextView
+                android:id="@+id/tvConnSec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/red"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <!-- Card Sensor 1 -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSec1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -78,42 +89,36 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/sensor_1_label"
+                        android:text="@string/shelf_01"
                         android:textColor="@color/primary_light"
                         android:textSize="11sp"
-                        android:textStyle="bold"
-                        android:letterSpacing="0.1" />
-
-                    <TextView
-                        android:id="@+id/tvProductName1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@string/product_1_name"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
                         android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="16dp"
-                        android:background="@color/divider" />
 
                     <TextView
                         android:id="@+id/tvSecCell1Status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:text="@string/status_safe"
                         android:textColor="@color/green"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvSecDetail1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Baseline: -- g\nActual: -- g\nΔ: -- g"
+                        android:textColor="@color/primary_main"
+                        android:textSize="13sp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Sensor 2 Card -->
+            <!-- Card Sensor 2 -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSec2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -130,39 +135,57 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/sensor_2_label"
+                        android:text="@string/shelf_02"
                         android:textColor="@color/primary_light"
                         android:textSize="11sp"
-                        android:textStyle="bold"
-                        android:letterSpacing="0.1" />
-
-                    <TextView
-                        android:id="@+id/tvProductName2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@string/product_2_name"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
                         android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="16dp"
-                        android:background="@color/divider" />
 
                     <TextView
                         android:id="@+id/tvSecCell2Status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:text="@string/status_safe"
                         android:textColor="@color/green"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvSecDetail2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Baseline: -- g\nActual: -- g\nΔ: -- g"
+                        android:textColor="@color/primary_main"
+                        android:textSize="13sp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAlarmOn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="Activar Buzzer"
+                    android:textAllCaps="false"
+                    app:backgroundTint="@color/primary_main" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAlarmOff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Silenciar Buzzer"
+                    android:textAllCaps="false"
+                    app:backgroundTint="@color/primary_light" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

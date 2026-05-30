@@ -1,22 +1,25 @@
 package com.example.soa;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Locale;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-public class StockModeActivity extends AppCompatActivity implements MqttManager.MqttListener {
+import org.json.JSONObject;
 
-    private TextView tvCell1Value, tvCell1Status, tvCell2Value, tvCell2Status;
+import java.util.Locale;
+
+public class StockModeActivity extends AppCompatActivity {
+
+    private TextView tvCell1Value, tvCell1Status, tvCell2Value, tvCell2Status, tvConnStock;
     private Button btnStop;
+    private final Handler pollHandler = new Handler(Looper.getMainLooper());
+    private static final int POLL_INTERVAL = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,68 +30,77 @@ public class StockModeActivity extends AppCompatActivity implements MqttManager.
         tvCell1Status = findViewById(R.id.tvCell1Status);
         tvCell2Value = findViewById(R.id.tvCell2Value);
         tvCell2Status = findViewById(R.id.tvCell2Status);
+        tvConnStock = findViewById(R.id.tvConnStock);
         btnStop = findViewById(R.id.btnStopStock);
 
-        btnStop.setOnClickListener(v -> MqttManager.getInstance().publicar("soa/grupol5/comando", "STOCK_OFF"));
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        btnStop.setOnClickListener(v -> {
+            ApiClient.getInstance().sendStock(this, false, new ApiClient.OkCallback() {
+                @Override
+                public void onOk(JSONObject resp) { finish(); }
+                @Override
+                public void onError(String msg) { Toast.makeText(StockModeActivity.this, msg, Toast.LENGTH_SHORT).show(); }
+            });
         });
     }
+
+    private final Runnable pollRunnable = new Runnable() {
+        @Override
+        public void run() {
+            ApiClient.getInstance().getState(StockModeActivity.this, new ApiClient.StateCallback() {
+                @Override
+                public void onState(JSONObject state) {
+                    if (isFinishing()) return;
+                    tvConnStock.setText("");
+                    StateManager.updateFromBackend(state);
+                    actualizarInterfaz();
+                    // Quedarse mientras Stock siga activado (aunque Security corra por prioridad).
+                    if (!StateManager.isStockOn()) {
+                        finish();
+                        return;
+                    }
+                    pollHandler.postDelayed(pollRunnable, POLL_INTERVAL);
+                }
+                @Override
+                public void onError(String msg) {
+                    if (isFinishing()) return;
+                    tvConnStock.setText(msg);
+                    pollHandler.postDelayed(pollRunnable, POLL_INTERVAL);
+                }
+                @Override
+                public void onEmpty() {
+                    if (isFinishing()) return;
+                    tvConnStock.setText("Esperando datos…");
+                    pollHandler.postDelayed(pollRunnable, POLL_INTERVAL);
+                }
+            });
+        }
+    };
 
     @Override
     protected void onResume() {
         super.onResume();
-        MqttManager.getInstance().setListener(this);
+        pollHandler.post(pollRunnable);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MqttManager.getInstance().setListener(null);
+        pollHandler.removeCallbacks(pollRunnable);
     }
 
-    @Override
-    public void onMensajeRecibido(String topic, String payload) {
-        runOnUiThread(() -> {
-            switch (topic) {
-                case "soa/grupol5/stock/sensor01":
-                    actualizarSensor(tvCell1Value, tvCell1Status, payload);
-                    break;
-                case "soa/grupol5/stock/sensor02":
-                    actualizarSensor(tvCell2Value, tvCell2Status, payload);
-                    break;
-                case "soa/grupol5/estado":
-                    StateManager.setEstadoActual(payload);
-                    if (payload.equals(StateManager.ESTADO_VIRGEN)) finish();
-                    break;
-            }
-        });
+    private void actualizarInterfaz() {
+        updateShelfUI(StateManager.getShelf01(), tvCell1Value, tvCell1Status);
+        updateShelfUI(StateManager.getShelf02(), tvCell2Value, tvCell2Status);
     }
 
-    private void actualizarSensor(TextView tvValue, TextView tvStatus, String pesoStr) {
-        try {
-            float peso = Float.parseFloat(pesoStr);
-            tvValue.setText(String.format(Locale.US, "%.1f g", peso));
-            
-            if (peso < 100) { // Umbral de stock bajo
-                tvStatus.setText(R.string.status_low);
-                tvStatus.setTextColor(ContextCompat.getColor(this, R.color.red));
-            } else {
-                tvStatus.setText(R.string.status_ok);
-                tvStatus.setTextColor(ContextCompat.getColor(this, R.color.green));
-            }
-        } catch (NumberFormatException e) {
-            tvValue.setText(pesoStr);
+    private void updateShelfUI(StateManager.ShelfData data, TextView tvVal, TextView tvStat) {
+        tvVal.setText(String.format(Locale.US, "Peso: %.1f g", data.weight));
+        if (data.available) {
+            tvStat.setText("DISPONIBLE");
+            tvStat.setTextColor(ContextCompat.getColor(this, R.color.green));
+        } else {
+            tvStat.setText("AGOTADO");
+            tvStat.setTextColor(ContextCompat.getColor(this, R.color.red));
         }
-    }
-
-    @Override
-    public void onConexionPerdida() {
-        runOnUiThread(() ->
-            Toast.makeText(this, "Conexión perdida", Toast.LENGTH_SHORT).show()
-        );
     }
 }
