@@ -78,23 +78,23 @@ public class SecurityModeActivity extends AppCompatActivity implements MqttManag
 
         switch (alerta) {
             case "0":
-                setSensorStatus(tvCell1Status, "Estado: SEGURO", true);
-                setSensorStatus(tvCell2Status, "Estado: SEGURO", true);
+                setSensorStatus(tvCell1Status, getString(R.string.status_safe), true);
+                setSensorStatus(tvCell2Status, getString(R.string.status_safe), true);
                 break;
 
             case "sensor01":
-                setSensorStatus(tvCell1Status, "Estado: ALERTA", false);
-                setSensorStatus(tvCell2Status, "Estado: SEGURO",  true);
+                setSensorStatus(tvCell1Status, getString(R.string.status_alert), false);
+                setSensorStatus(tvCell2Status, getString(R.string.status_safe),  true);
                 break;
 
             case "sensor02":
-                setSensorStatus(tvCell1Status, "Estado: SEGURO",   true);
-                setSensorStatus(tvCell2Status, "Estado: ALERTA", false);
+                setSensorStatus(tvCell1Status, getString(R.string.status_safe),   true);
+                setSensorStatus(tvCell2Status, getString(R.string.status_alert), false);
                 break;
 
             case "ambos":
-                setSensorStatus(tvCell1Status, "Estado: ALERTA", false);
-                setSensorStatus(tvCell2Status, "Estado: ALERTA", false);
+                setSensorStatus(tvCell1Status, getString(R.string.status_alert), false);
+                setSensorStatus(tvCell2Status, getString(R.string.status_alert), false);
                 break;
         }
     }

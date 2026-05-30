@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements MqttManager.MqttL
 
     private Button btnStock;
     private Button btnSecurity;
+    private Button btnStop;
     private TextView tvState;
 
     @Override
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements MqttManager.MqttL
         tvState = findViewById(R.id.tvState);
         btnStock = findViewById(R.id.btnStock);
         btnSecurity = findViewById(R.id.btnSecurity);
+        btnStop = findViewById(R.id.btnStop);
 
         MqttManager.getInstance().conectar(this);
 
@@ -46,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements MqttManager.MqttL
             } else {
                 MqttManager.getInstance().publicar("soa/grupol5/comando", "SECURITY_ON");
             }
+        });
+
+        btnStop.setOnClickListener(v -> {
+            MqttManager.getInstance().publicar("soa/grupol5/comando", "OFF");
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -122,30 +128,33 @@ public class MainActivity extends AppCompatActivity implements MqttManager.MqttL
 
         switch (estado) {
             case StateManager.ESTADO_VIRGEN:
-                tvState.setText("Estado actual: Embebido Virgen");
-                tvState.setTextColor(ContextCompat.getColor(this, R.color.vigin_embedded));
-                btnStock.setText("Activar Modo Stock");
+                tvState.setText(R.string.state_off);
+                tvState.setTextColor(ContextCompat.getColor(this, R.color.primary_light));
+                btnStock.setText(R.string.btn_stock);
                 btnStock.setEnabled(true);
-                btnSecurity.setText("Activar Modo Seguridad");
+                btnSecurity.setText(R.string.btn_security);
                 btnSecurity.setEnabled(true);
+                btnStop.setEnabled(false);
                 break;
 
             case StateManager.ESTADO_STOCK:
-                tvState.setText("Estado actual: Modo Stock");
-                tvState.setTextColor(ContextCompat.getColor(this, R.color.stock_mode));
-                btnStock.setText("Ver detalle de Stock");
+                tvState.setText(R.string.state_stock);
+                tvState.setTextColor(ContextCompat.getColor(this, R.color.primary_dark));
+                btnStock.setText(R.string.btn_view_stock);
                 btnStock.setEnabled(true);
-                btnSecurity.setText("Activar Modo Seguridad");
+                btnSecurity.setText(R.string.btn_security);
                 btnSecurity.setEnabled(true);
+                btnStop.setEnabled(true);
                 break;
 
             case StateManager.ESTADO_SEGURIDAD:
-                tvState.setText("Estado actual: Modo Seguridad");
-                tvState.setTextColor(ContextCompat.getColor(this, R.color.security_mode));
-                btnStock.setText("Activar Modo Stock");
+                tvState.setText(R.string.state_security);
+                tvState.setTextColor(ContextCompat.getColor(this, R.color.primary_dark));
+                btnStock.setText(R.string.btn_stock);
                 btnStock.setEnabled(false);
-                btnSecurity.setText("Ver detalle de Seguridad");
+                btnSecurity.setText(R.string.btn_view_security);
                 btnSecurity.setEnabled(true);
+                btnStop.setEnabled(true);
                 break;
         }
 

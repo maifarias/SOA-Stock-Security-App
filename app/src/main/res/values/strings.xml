@@ -1,3 +1,35 @@
 <resources>
-    <string name="app_name">SOA</string>
+    <string name="app_name">SOA Stock &amp; Security</string>
+    <string name="main_title">Control de Planta</string>
+    <string name="main_subtitle">Monitoreo y Gestión en Tiempo Real</string>
+    <string name="state_label">Estado del Sistema</string>
+    <string name="state_off">SISTEMA DESACTIVADO</string>
+    <string name="state_stock">MODO STOCK ACTIVO</string>
+    <string name="state_security">MODO SEGURIDAD ACTIVO</string>
+
+    <string name="btn_stock">Activar Stock</string>
+    <string name="btn_security">Activar Seguridad</string>
+    <string name="btn_stop">Detener Sistema</string>
+    <string name="btn_view_stock">Ver Detalle de Stock</string>
+    <string name="btn_view_security">Ver Detalle de Seguridad</string>
+
+    <!-- Security Screen -->
+    <string name="security_title">Seguridad Activa</string>
+    <string name="security_subtitle">Monitoreo de Sensores de Carga</string>
+    <string name="sensor_1_label">SENSOR DE CARGA 1</string>
+    <string name="sensor_2_label">SENSOR DE CARGA 2</string>
+    <string name="product_1_name">Caja de Tornillos</string>
+    <string name="product_2_name">Caja de Tuercas</string>
+    <string name="status_safe">Estado: SEGURO</string>
+    <string name="status_alert">Estado: ALERTA</string>
+    <string name="btn_deactivate_security">Desactivar Seguridad</string>
+
+    <!-- Stock Screen -->
+    <string name="stock_title">Inventario en Tiempo Real</string>
+    <string name="stock_subtitle">Control de Peso y Disponibilidad</string>
+    <string name="weight_label">Peso Actual</string>
+    <string name="weight_placeholder">-- g</string>
+    <string name="status_ok">Estado: DISPONIBLE</string>
+    <string name="status_low">Estado: STOCK BAJO</string>
+    <string name="btn_deactivate_stock">Desactivar Stock</string>
 </resources>
