@@ -35,6 +35,7 @@ public class SecurityModeActivity extends AppCompatActivity {
         tvSecDetail2 = findViewById(R.id.tvSecDetail2);
         card1 = findViewById(R.id.cardSec1);
         card2 = findViewById(R.id.cardSec2);
+        card2.setVisibility(android.view.View.GONE);        // sacar sensor2
         tvConnSec = findViewById(R.id.tvConnSec);
         btnStop = findViewById(R.id.btnStopSecurity);
         btnAlarmOn = findViewById(R.id.btnAlarmOn);
@@ -49,8 +50,8 @@ public class SecurityModeActivity extends AppCompatActivity {
             });
         });
 
-        btnAlarmOn.setOnClickListener(v -> sendAlarm("ON"));
-        btnAlarmOff.setOnClickListener(v -> sendAlarm("OFF"));
+        btnAlarmOn.setOnClickListener(v -> sendAlarm("UNMUTE"));
+        btnAlarmOff.setOnClickListener(v -> sendAlarm("MUTE"));
     }
 
     private void sendAlarm(String val) {

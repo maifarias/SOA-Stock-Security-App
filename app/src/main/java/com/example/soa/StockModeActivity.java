@@ -30,6 +30,8 @@ public class StockModeActivity extends AppCompatActivity {
         tvCell1Status = findViewById(R.id.tvCell1Status);
         tvCell2Value = findViewById(R.id.tvCell2Value);
         tvCell2Status = findViewById(R.id.tvCell2Status);
+        tvCell2Value.setVisibility(android.view.View.GONE);     // sacar sensor2
+        tvCell2Status.setVisibility(android.view.View.GONE);    // sacar sensor2
         tvConnStock = findViewById(R.id.tvConnStock);
         btnStop = findViewById(R.id.btnStopStock);
 

@@ -26,7 +26,7 @@ public class ApiClient {
     private static final String KEY_BASE_URL = "baseUrl";
     private static final String KEY_DEVICE_ID = "deviceId";
     private static final String DEFAULT_URL = "http://10.0.2.2:1880";
-    private static final String DEFAULT_ID = "gondola-01";
+    private static final String DEFAULT_ID = "corridor-01";
 
     public interface StateCallback {
         void onState(JSONObject state);
@@ -72,7 +72,7 @@ public class ApiClient {
     }
 
     public void getState(Context context, StateCallback cb) {
-        String url = getBaseUrl(context) + "/api/" + getDeviceId(context) + "/state";
+        String url = getBaseUrl(context) + "/api/" + getDeviceId(context);
         Request request = new Request.Builder().url(url).build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -108,20 +108,20 @@ public class ApiClient {
     // vez; el firmware le da prioridad a Security. Reemplazan al viejo sendMode().
     public void sendStock(Context context, boolean on, OkCallback cb) {
         JSONObject json = new JSONObject();
-        try { json.put("on", on); } catch (JSONException ignored) {}
-        postRequest(context, "/cmd/stock", json, cb);
+        try { json.put("status", on? "ON" : "OFF"); } catch (JSONException ignored) {}
+        postRequest(context, "/stock", json, cb);
     }
 
     public void sendSecurity(Context context, boolean on, OkCallback cb) {
         JSONObject json = new JSONObject();
-        try { json.put("on", on); } catch (JSONException ignored) {}
-        postRequest(context, "/cmd/security", json, cb);
+        try { json.put("status", on? "ON" : "OFF"); } catch (JSONException ignored) {}
+        postRequest(context, "/security", json, cb);
     }
 
     public void sendAlarm(Context context, String value, OkCallback cb) {
         JSONObject json = new JSONObject();
-        try { json.put("alarm", value); } catch (JSONException ignored) {}
-        postRequest(context, "/cmd/alarm", json, cb);
+        try { json.put("status", value); } catch (JSONException ignored) {}
+        postRequest(context, "/security/alarm", json, cb);
     }
 
     private void postRequest(Context context, String endpoint, JSONObject body, OkCallback cb) {
