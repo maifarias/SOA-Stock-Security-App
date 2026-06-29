@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
@@ -17,7 +18,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import org.json.JSONObject;
@@ -25,6 +25,7 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
 
     private Button btnStock, btnSecurity, btnStop;
+    private ImageButton btnSettings;
     private TextView tvState, tvLastUpdate;
     private final Handler pollHandler = new Handler(Looper.getMainLooper());
     private static final int POLL_INTERVAL = 2000;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         btnStock = findViewById(R.id.btnStock);
         btnSecurity = findViewById(R.id.btnSecurity);
         btnStop = findViewById(R.id.btnStop);
+        btnSettings = findViewById(R.id.btnSettings);
 
         // Cada modo es un toggle independiente: si ya está activado, el botón ENTRA a su
         // pantalla; si no, lo ACTIVA. Ambos pueden estar activados a la vez.
@@ -61,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
         btnStop.setOnClickListener(v -> {
             sendStock(false);
             sendSecurity(false);
+        });
+
+        btnSettings.setOnClickListener(v -> {
+            startActivity(new Intent(this, SettingsActivity.class));
         });
     }
 
@@ -175,33 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        showConfigDialog();
+        startActivity(new Intent(this, SettingsActivity.class));
         return true;
-    }
-
-    private void showConfigDialog() {
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(50, 20, 50, 20);
-
-        final EditText etUrl = new EditText(this);
-        etUrl.setHint("URL (http://IP:1880)");
-        etUrl.setText(ApiClient.getInstance().getBaseUrl(this));
-        layout.addView(etUrl);
-
-        final EditText etId = new EditText(this);
-        etId.setHint("Device ID");
-        etId.setText(ApiClient.getInstance().getDeviceId(this));
-        layout.addView(etId);
-
-        new AlertDialog.Builder(this)
-                .setTitle("Ajustes de API")
-                .setView(layout)
-                .setPositiveButton("Guardar", (d, w) -> {
-                    ApiClient.getInstance().saveSettings(this, etUrl.getText().toString(), etId.getText().toString());
-                    Toast.makeText(this, "Ajustes guardados", Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton("Cancelar", null)
-                .show();
     }
 }
