@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -42,7 +43,11 @@ public class ApiClient {
     }
 
     private ApiClient() {
-        client = new OkHttpClient();
+        client = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.SECONDS)
+                .readTimeout(1, TimeUnit.SECONDS)
+                .writeTimeout(1, TimeUnit.SECONDS)
+                .build();
         mainHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -146,8 +151,16 @@ public class ApiClient {
                     }
                     String respBody = resp.body().string();
                     if (resp.isSuccessful()) {
-                        JSONObject json = new JSONObject(respBody);
-                        mainHandler.post(() -> cb.onOk(json));
+                        JSONObject json;
+                        try {
+                            json = new JSONObject(respBody);
+                        } catch (Exception e) {
+                            // Si no es JSON (ej: "OK"), creamos uno mínimo para no fallar
+                            json = new JSONObject();
+                            try { json.put("result", respBody); } catch (JSONException ignored) {}
+                        }
+                        final JSONObject finalJson = json;
+                        mainHandler.post(() -> cb.onOk(finalJson));
                     } else {
                         postError(cb, "Error " + resp.code());
                     }

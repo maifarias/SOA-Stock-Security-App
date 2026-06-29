@@ -10,11 +10,14 @@ public class StateManager {
     private static String estadoActual = ESTADO_VIRGEN;   // = status.active (modo efectivo, con prioridad)
     private static boolean stockOn = false;               // = status.stock  (toggle activado por el usuario)
     private static boolean securityOn = false;            // = status.security
+    private static boolean buzzerMuted = false;
     private static String availability = "offline";
     private static long lastUpdated = 0;
     
     public static class ShelfData {
+        public String name = "";
         public double weight = 0;
+        public double weightPerUnit = 0;
         public int stock = 0;
         public int min = 0;
         public boolean available = false;
@@ -30,6 +33,7 @@ public class StateManager {
     public static String getEstadoActual() { return estadoActual; }   // modo que corre por prioridad
     public static boolean isStockOn() { return stockOn; }
     public static boolean isSecurityOn() { return securityOn; }
+    public static boolean isBuzzerMuted() { return buzzerMuted; }
     public static String getAvailability() { return availability; }
     public static long getLastUpdated() { return lastUpdated; }
     public static ShelfData getShelf01() { return shelf01; }
@@ -41,8 +45,17 @@ public class StateManager {
         JSONObject health = state.optJSONObject("health");
         if(health != null) availability = health.optString("status", availability);
 
+        JSONObject alarm = state.optJSONObject("alarm");
+        if (alarm != null) {
+            buzzerMuted = alarm.optBoolean("muted", buzzerMuted);
+        }
+
         JSONObject system = state.optJSONObject("system");
         if (system != null) {
+            // Leemos estados individuales si existen en el JSON
+            stockOn = system.optBoolean("stock", stockOn);
+            securityOn = system.optBoolean("security", securityOn);
+
             String sysStatus = system.optString("status", "");
             if (sysStatus.equals("SECURITY_MODE")) {
                 estadoActual = ESTADO_SEGURIDAD;
@@ -50,6 +63,7 @@ public class StateManager {
             } else if (sysStatus.equals("STOCK_MODE")) {
                 estadoActual = ESTADO_STOCK;
                 stockOn = true;
+                // Si el status es STOCK_MODE, es que Seguridad no está corriendo
                 securityOn = false;
             } else if (sysStatus.equals("VIRGIN_EMBEDDED")) {
                 estadoActual = ESTADO_VIRGEN;
@@ -68,7 +82,9 @@ public class StateManager {
 
         JSONObject stock = json.optJSONObject("stock");
         if (stock != null) {
+            data.name = stock.optString("name", data.name);
             data.weight = stock.optDouble("weight", data.weight);
+            data.weightPerUnit = stock.optDouble("weightPerUnit", data.weightPerUnit);
             data.stock = stock.optInt("stock", data.stock);
             data.min = stock.optInt("minimumAcceptableStock", data.min);
             data.available = data.stock >= data.min;    // Calculado localmente
@@ -86,4 +102,6 @@ public class StateManager {
     
     // Legacy support
     public static void setEstadoActual(String estado) { estadoActual = estado; }
+    public static void setStockOn(boolean on) { stockOn = on; }
+    public static void setSecurityOn(boolean on) { securityOn = on; }
 }

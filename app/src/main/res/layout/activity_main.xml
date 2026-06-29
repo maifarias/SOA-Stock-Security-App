@@ -18,29 +18,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Status Card -->
     <ImageButton
         android:id="@+id/btnSettings"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="56dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="42dp"
         android:layout_marginEnd="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/ic_menu_manage"
-        app:tint="@color/white"
+        android:contentDescription="Configuración"
+        android:src="@drawable/ic_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="Configuración" />
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/tvMainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="84dp"
         android:text="@string/main_title"
         android:textColor="@color/white"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,15 +50,15 @@
         android:id="@+id/tvMainSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:text="@string/main_subtitle"
         android:textColor="#CBD5E1"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvMainTitle" />
 
-    <!-- Status Card -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardStatus"
         android:layout_width="0dp"
@@ -80,11 +82,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:letterSpacing="0.1"
                 android:text="@string/state_label"
                 android:textColor="@color/primary_light"
                 android:textSize="12sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.1" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvState"
@@ -126,6 +128,7 @@
             android:layout_marginBottom="16dp"
             android:text="@string/btn_stock"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             app:backgroundTint="@color/primary_main"
@@ -139,22 +142,10 @@
             android:layout_marginBottom="16dp"
             android:text="@string/btn_security"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             app:backgroundTint="@color/primary_main"
-            app:cornerRadius="20dp"
-            app:elevation="2dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnStop"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="@string/btn_stop"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/stop_mode"
             app:cornerRadius="20dp"
             app:elevation="2dp" />
 

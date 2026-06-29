@@ -55,7 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="URL del Servidor Node-RED">
+                    android:hint="URL del servidor">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etUrl"
@@ -68,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
-                    android:hint="ID del Dispositivo">
+                    android:hint="ID del dispositivo">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etDeviceId"
@@ -81,7 +81,7 @@
                     android:id="@+id/btnSave"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:text="GUARDAR CAMBIOS"
+                    android:text="Guardar cambios"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:cornerRadius="16dp"
