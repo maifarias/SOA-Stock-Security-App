@@ -27,7 +27,7 @@ public class SecurityModeActivity extends AppCompatActivity {
     private Button btnStop, btnAlarmOn, btnAlarmOff;
     private boolean isServerOffline = false;
     private final Handler pollHandler = new Handler(Looper.getMainLooper());
-    private static final int POLL_INTERVAL = 1000;
+    private static final int POLL_INTERVAL = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class SecurityModeActivity extends AppCompatActivity {
     private void sendAlarm(String val) {
         ApiClient.getInstance().sendAlarm(this, val, new ApiClient.OkCallback() {
             @Override
-            public void onOk(JSONObject resp) { 
+            public void onOk(JSONObject resp) {
                 triggerVibration(100);
             }
             @Override

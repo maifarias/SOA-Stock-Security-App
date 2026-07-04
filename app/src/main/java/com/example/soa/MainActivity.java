@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvState, tvLastUpdate;
     private boolean isServerOffline = true; // Iniciamos en true para evitar vibración al arrancar si no hay red
     private final Handler pollHandler = new Handler(Looper.getMainLooper());
-    private static final int POLL_INTERVAL = 1000;
+    private static final int POLL_INTERVAL = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
